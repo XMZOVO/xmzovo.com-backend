@@ -3,6 +3,7 @@ package mysql
 import (
 	"app/models"
 	"io/ioutil"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,6 +29,36 @@ func (con MySqlController) GetGrammarByTitle(c *gin.Context) {
 		"pre":    pre,
 		"master": master,
 		"dic":    dic,
+	})
+}
+
+func (con MySqlController) PostFeedback(c *gin.Context) {
+	feedback := models.Feedbacks{}
+	c.BindJSON(&feedback)
+	feedback.SendTime = time.Now()
+
+	models.DB["grammar"].Create(&feedback)
+	c.JSON(200, gin.H{
+		"message": "success",
+	})
+}
+
+func (con MySqlController) GetFeedback(c *gin.Context) {
+	var feedback []models.Feedbacks
+	//根据Likes排序
+	models.DB["grammar"].Order("likes desc").Find(&feedback)
+	c.JSON(200, feedback)
+
+}
+
+func (con MySqlController) LikeFeedback(c *gin.Context) {
+	id := c.Param("id")
+	var feedback models.Feedbacks
+	models.DB["grammar"].Where("id = ?", id).Find(&feedback)
+	feedback.Likes++
+	models.DB["grammar"].Save(&feedback)
+	c.JSON(200, gin.H{
+		"message": "success",
 	})
 }
 

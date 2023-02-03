@@ -48,5 +48,6 @@ func main() {
 	r.Use(Cors(), gin.Logger(), gin.Recovery(), TlsHandler())
 	r.StaticFS("/file", http.Dir("./static/files"))
 	routers.MySqlRoutersInit(r)
+	// r.Run(":8081")
 	r.RunTLS(":8081", "zhongpeiying.com_bundle.pem", "zhongpeiying.com.key")
 }

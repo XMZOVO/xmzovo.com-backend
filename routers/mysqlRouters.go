@@ -10,6 +10,9 @@ func MySqlRoutersInit(r *gin.Engine) {
 	grammarGroup := r.Group("/grammar")
 	{
 		grammarGroup.GET("/title/:title", mysql.MySqlController{}.GetGrammarByTitle)
+		grammarGroup.POST("/feedback", mysql.MySqlController{}.PostFeedback)
+		grammarGroup.GET("feedback", mysql.MySqlController{}.GetFeedback)
+		grammarGroup.POST("/feedback/like/:id", mysql.MySqlController{}.LikeFeedback)
 	}
 
 	comicGroup := r.Group("/comic")

@@ -1,6 +1,10 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Blues struct {
 	Id     int     `json:"id" gorm:"primary_key"`
@@ -39,6 +43,14 @@ type Dictionaries struct {
 	Title string `json:"title"`
 	Path  string `json:"path"`
 	Page  int    `json:"page"`
+}
+
+type Feedbacks struct {
+	Id       int       `json:"id" gorm:"primary_key"`
+	Content  string    `json:"content"`
+	SendTime time.Time `json:"send_time"`
+	Likes    int       `json:"likes"`
+	Status   int       `json:"status"`
 }
 
 type Comics struct {
